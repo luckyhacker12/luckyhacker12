@@ -32,18 +32,6 @@ psql_run -d "$MAINTENANCE_DB" -v db="$DB" \
   -c "drop database if exists \"$DB\"" >/dev/null
 psql_run -d "$MAINTENANCE_DB" -v db="$DB" -c "create database \"$DB\"" >/dev/null
 
-apply() {
-  local file="$1"
-  echo "==> applying ${file#"$ROOT"/}"
-  psql_run -d "$DB" -f "$ROOT/$file" 2>&1 | sed 's/^psql:[^ ]* //' \
-    | grep -E '^(ok|FAIL|ERROR)' || true
-  # `grep` swallows the exit status, so re-check the file explicitly.
-  psql_run -d "$DB" -f "$ROOT/$file" >/dev/null 2>&1 || {
-    echo "FAILED while applying $file" >&2
-    exit 1
-  }
-}
-
 # Structural SQL: shim, then the real migrations in deployment order.
 for file in \
   supabase/tests/00_local_shim.sql \
