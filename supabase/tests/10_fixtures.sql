@@ -29,12 +29,18 @@ insert into public.call_logs (lead_id, employee_id, outcome, note) values
 
 -- Follow-ups: two pending for Bob (one overdue, one due today), one done for Cara.
 insert into public.follow_ups (lead_id, assigned_to, due_at, note, status) values
+  -- "Later today": clamped so it is always in the future yet still within today,
+  -- which keeps the overdue / due-today assertions independent of the clock.
   ('aaaaaaaa-0000-0000-0000-000000000001', '22222222-2222-2222-2222-222222222222',
-   date_trunc('day', now()) + interval '12 hours', 'Call back after lunch', 'pending'),
+   least(now() + interval '2 hours',
+         date_trunc('day', now()) + interval '1 day' - interval '1 second'),
+   'Call back after lunch', 'pending'),
   ('aaaaaaaa-0000-0000-0000-000000000004', '22222222-2222-2222-2222-222222222222',
    date_trunc('day', now()) - interval '1 hour', 'Paperwork chase', 'pending'),
   ('aaaaaaaa-0000-0000-0000-000000000002', '33333333-3333-3333-3333-333333333333',
-   date_trunc('day', now()) + interval '12 hours', 'Already finished', 'done');
+   least(now() + interval '2 hours',
+         date_trunc('day', now()) + interval '1 day' - interval '1 second'),
+   'Already finished', 'done');
 
 -- Attendance: Bob is present today.
 insert into public.attendance (employee_id, work_date, status) values
