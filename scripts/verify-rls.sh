@@ -23,6 +23,15 @@ if ! command -v psql >/dev/null 2>&1; then
   exit 1
 fi
 
+# Convenience for container/sandbox use: when invoked as root without libpq
+# credentials, re-run under the local "postgres" superuser if passwordless sudo
+# allows it. Real environments simply set PGUSER/PGHOST or run as a superuser.
+if [ "$(id -u)" -eq 0 ] && [ -z "${PGUSER:-}" ] && [ -z "${CALLPRO_RLS_ELEVATED:-}" ]; then
+  if sudo -n -u postgres true 2>/dev/null; then
+    CALLPRO_RLS_ELEVATED=1 exec sudo -n -u postgres env CALLPRO_RLS_ELEVATED=1 bash "${BASH_SOURCE[0]}" "$@"
+  fi
+fi
+
 psql_run() {
   psql -X -q -v ON_ERROR_STOP=1 "$@"
 }
