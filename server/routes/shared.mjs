@@ -213,7 +213,9 @@ sharedRouter.post(
       lead_id: leadId,
       employee_id: req.profile.id,
       outcome,
-      notes: cleanText(body.notes, 4000),
+      // Column is `note` in public.call_logs (see 001_schema.sql). The API field
+      // stays `notes` so clients have one consistent name for free-text notes.
+      note: cleanText(body.notes, 4000),
       duration_seconds: duration,
       called_at: cleanDate(body.called_at, 'called_at') ?? new Date().toISOString(),
     }
