@@ -74,7 +74,7 @@ export function CallHistoryPage() {
         `/calls/export${qs({ employee_id: employeeId, from, to })}`,
         `callpro-calls-${todayISO()}.csv`,
       )
-      toast.push('Export ready', 'good')
+      toast.push('Export ready', 'success')
     } catch (err) {
       setError(errorMessage(err))
     }

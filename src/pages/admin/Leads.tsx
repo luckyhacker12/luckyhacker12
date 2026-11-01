@@ -139,7 +139,7 @@ export function AdminLeadsPage() {
         ...form,
         assigned_to: form.assigned_to || null,
       })
-      toast.push('Lead created', 'good')
+      toast.push('Lead created', 'success')
       setShowNew(false)
       setForm({ ...emptyForm })
       setPage(1)
@@ -161,7 +161,7 @@ export function AdminLeadsPage() {
         mode: assignMode,
         assigned_to: assignTarget || null,
       })
-      toast.push('Assignments updated', 'good')
+      toast.push('Assignments updated', 'success')
       setSelected([])
       await load()
     } catch (err) {
@@ -177,7 +177,7 @@ export function AdminLeadsPage() {
     }
     try {
       await api.delete(`/leads/${lead.id}`)
-      toast.push('Lead deleted', 'good')
+      toast.push('Lead deleted', 'success')
       setSelected((prev) => prev.filter((id) => id !== lead.id))
       await load()
     } catch (err) {
@@ -211,7 +211,7 @@ export function AdminLeadsPage() {
           (skipped ? ` · ${skipped} row${skipped === 1 ? '' : 's'} skipped` : '') +
           (duplicates ? ` · ${duplicates} duplicate phone${duplicates === 1 ? '' : 's'}` : ''),
       )
-      toast.push('Import finished', 'good')
+      toast.push('Import finished', 'success')
       setPage(1)
       await load()
     } catch (err) {

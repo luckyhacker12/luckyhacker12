@@ -81,7 +81,7 @@ export function AdminAttendancePage() {
         status,
         notes: notes || null,
       })
-      toast.push('Attendance saved', 'good')
+      toast.push('Attendance saved', 'success')
       setEditing(null)
       await load()
     } catch (err) {

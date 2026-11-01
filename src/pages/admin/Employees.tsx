@@ -17,7 +17,7 @@ import {
   useToast,
 } from '../../components/ui'
 
-interface EmployeeRow extends Omit<EmployeeStat, 'role'> {
+type EmployeeRow = Omit<EmployeeStat, 'role' | 'active'> & {
   phone?: string | null
   role?: 'admin' | 'employee'
   active?: boolean
@@ -75,7 +75,7 @@ export function EmployeesPage() {
     setFormError(null)
     try {
       await api.post('/employees', form)
-      toast.push('Account created', 'good')
+      toast.push('Account created', 'success')
       setShowNew(false)
       setForm({ ...emptyNew })
       await load()
@@ -103,7 +103,7 @@ export function EmployeesPage() {
     setFormError(null)
     try {
       await api.patch(`/employees/${editing.id}`, editForm)
-      toast.push('Profile updated', 'good')
+      toast.push('Profile updated', 'success')
       setEditing(null)
       await load()
     } catch (err) {
@@ -117,7 +117,7 @@ export function EmployeesPage() {
     setError(null)
     try {
       await api.patch(`/employees/${row.id}`, { active: !(row.active ?? true) })
-      toast.push(row.active ? 'Account deactivated' : 'Account reactivated', 'good')
+      toast.push(row.active ? 'Account deactivated' : 'Account reactivated', 'success')
       await load()
     } catch (err) {
       setError(errorMessage(err))
@@ -130,7 +130,7 @@ export function EmployeesPage() {
     setFormError(null)
     try {
       await api.post(`/employees/${passwordFor.id}/password`, { password })
-      toast.push('Password reset', 'good')
+      toast.push('Password reset', 'success')
       setPasswordFor(null)
       setPassword('')
     } catch (err) {
@@ -147,7 +147,7 @@ export function EmployeesPage() {
     setError(null)
     try {
       await api.delete(`/employees/${row.id}`)
-      toast.push('Account deleted', 'good')
+      toast.push('Account deleted', 'success')
       await load()
     } catch (err) {
       setError(errorMessage(err))
