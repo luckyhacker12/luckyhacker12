@@ -17,9 +17,9 @@ import {
   useToast,
 } from '../../components/ui'
 
-interface EmployeeRow extends EmployeeStat {
+interface EmployeeRow extends Omit<EmployeeStat, 'role'> {
   phone?: string | null
-  role?: string
+  role?: 'admin' | 'employee'
   active?: boolean
   created_at?: string
 }
