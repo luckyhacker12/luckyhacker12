@@ -326,7 +326,7 @@ adminRouter.post(
 const HEADER_ALIASES = {
   name: ['name', 'full_name', 'fullname', 'lead', 'lead_name', 'contact', 'contact_name', 'customer'],
   phone: ['phone', 'mobile', 'phone_number', 'number', 'mobile_number', 'contact_number', 'cell'],
-  email: ['email', 'email_address', 'mail'],
+  email: ['email', 'email_address', 'e_mail', 'mail'],
   company: ['company', 'company_name', 'organisation', 'organization', 'business'],
   city: ['city', 'location', 'area', 'region'],
   source: ['source', 'lead_source', 'campaign', 'channel'],
