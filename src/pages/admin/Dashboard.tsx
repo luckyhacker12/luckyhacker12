@@ -44,9 +44,10 @@ export function AdminDashboardPage() {
         subtitle="Live picture of the calling floor — leads, team output and what needs attention today."
         actions={
           <>
-            <Button variant="secondary" icon="upload" onClick={() => { window.location.href = '/admin/leads?import=1' }}>
-              Import leads
-            </Button>
+            <Link className="btn btn-secondary btn-md" to="/admin/leads?import=1">
+              <Icon name="upload" size={16} />
+              <span>Import leads</span>
+            </Link>
             <Link className="btn btn-primary btn-md" to="/admin/leads?new=1">
               <span>Add lead</span>
             </Link>
