@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api, downloadCsv, errorMessage, qs } from '../../lib/api'
 import { fmtDateTime, fmtDuration, todayISO } from '../../lib/format'
-import type { Profile } from '../../lib/types'
 import {
   Badge,
   Button,
@@ -38,7 +37,7 @@ export function CallHistoryPage() {
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [employees, setEmployees] = useState<Profile[]>([])
+  const [employees, setEmployees] = useState<{ id: string; full_name: string; email: string }[]>([])
 
   const [employeeId, setEmployeeId] = useState('')
   const [from, setFrom] = useState('')
@@ -65,19 +64,7 @@ export function CallHistoryPage() {
   useEffect(() => {
     api
       .get<{ employees: { id: string; full_name: string; email: string }[] }>('/employees')
-      .then((data) =>
-        setEmployees(
-          (data.employees ?? []).map((e) => ({
-            id: e.id,
-            full_name: e.full_name,
-            email: e.email,
-            phone: null,
-            role: 'employee',
-            active: true,
-            created_at: '',
-          })) as unknown as Profile[],
-        ),
-      )
+      .then((data) => setEmployees(data.employees ?? []))
       .catch(() => setEmployees([]))
   }, [])
 
