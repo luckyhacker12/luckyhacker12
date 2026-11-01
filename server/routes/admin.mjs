@@ -631,7 +631,7 @@ adminRouter.get(
         phone: leadMap.get(c.lead_id)?.phone ?? '',
         outcome: c.outcome ?? '',
         duration_seconds: c.duration_seconds ?? 0,
-        notes: c.notes ?? '',
+        notes: c.note ?? '',
       })),
     )
 
