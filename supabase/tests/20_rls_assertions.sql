@@ -137,9 +137,18 @@ begin;
   select tests.denied('employee: cannot promote themself to admin',
     $q$update public.profiles set role = 'admin'
         where id = '22222222-2222-2222-2222-222222222222'$q$);
-  select tests.denied('employee: cannot change another profile',
-    $q$update public.profiles set full_name = 'Hacked'
-        where id = '33333333-3333-3333-3333-333333333333'$q$);
+  -- The other employee's row is filtered out by the UPDATE's USING clause, so the
+  -- statement legitimately touches 0 rows without raising. Verify from the
+  -- privileged role that the row really was left untouched.
+  update public.profiles set full_name = 'Hacked'
+   where id = '33333333-3333-3333-3333-333333333333';
+  reset role;
+  select tests.eq('employee: cannot change another profile (row untouched)',
+                  coalesce((select full_name from public.profiles
+                             where id = '33333333-3333-3333-3333-333333333333') = 'Hacked', false),
+                  false);
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}';
   select tests.denied('employee: cannot insert a lead',
     $q$insert into public.leads (name, phone) values ('Sneaky', '+15559999999')$q$);
   select tests.denied('employee: cannot log a call against a colleague''s lead',
