@@ -1,0 +1,13 @@
+node_modules/
+dist/
+build/
+.vite/
+*.local
+.env
+.env.*
+!.env.example
+.DS_Store
+npm-debug.log*
+yarn-error.log*
+coverage/
+*.tsbuildinfo
