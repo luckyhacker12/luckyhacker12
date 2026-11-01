@@ -11,6 +11,7 @@ interface DashboardResponse {
 }
 
 export function AdminDashboardPage() {
+  const navigate = useNavigate()
   const [stats, setStats] = useState<AdminStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
