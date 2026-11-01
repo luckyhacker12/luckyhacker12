@@ -120,13 +120,19 @@ export interface AdminStats {
   employees: EmployeeStat[]
 }
 
+/**
+ * Row shape returned by public.admin_dashboard() -> stats.employees.
+ * Field names mirror the SQL function in supabase/migrations/003_functions.sql.
+ */
 export interface EmployeeStat extends Profile {
-  leads_assigned?: number
-  open_leads?: number
-  converted_leads?: number
+  leads?: number
+  converted?: number
+  calls_total?: number
   calls_today?: number
   calls_week?: number
   pending_followups?: number
+  overdue_followups?: number
+  last_call_at?: string | null
 }
 
 export interface EmployeeStats {
