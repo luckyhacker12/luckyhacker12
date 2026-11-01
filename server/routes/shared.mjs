@@ -329,7 +329,7 @@ sharedRouter.patch(
       patch.status = body.status
       patch.completed_at = body.status === 'pending' ? null : new Date().toISOString()
     }
-    if (body.notes !== undefined) patch.notes = cleanText(body.notes, 2000)
+    if (body.notes !== undefined) patch.note = cleanText(body.notes, 2000)
     if (body.due_at !== undefined) patch.due_at = cleanDate(body.due_at, 'due_at')
     if (req.profile.role === 'admin' && body.assigned_to !== undefined) {
       patch.assigned_to = body.assigned_to ? requireUuid(body.assigned_to, 'assigned_to') : null
