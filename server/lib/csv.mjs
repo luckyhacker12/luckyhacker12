@@ -64,7 +64,15 @@ export function parseCsvObjects(text) {
   const rows = parseCsv(text)
   if (rows.length === 0) return { headers: [], records: [] }
 
-  const headers = rows[0].map((h) => String(h).trim().toLowerCase().replace(/\s+/g, '_'))
+  // Normalise headers to a single snake_case-ish form so that "Phone Number",
+  // "Phone-Number" and "phone_number" all resolve to the same key.
+  const headers = rows[0].map((h) =>
+    String(h)
+      .replace(/^\uFEFF/, '')
+      .trim()
+      .toLowerCase()
+      .replace(/[\s-]+/g, '_'),
+  )
   const records = []
 
   for (let i = 1; i < rows.length; i += 1) {
