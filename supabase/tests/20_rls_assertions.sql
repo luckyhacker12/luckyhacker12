@@ -209,7 +209,9 @@ begin;
   set local role anon;
   select tests.denied('anon: cannot read leads', $q$select count(*) from public.leads$q$);
   select tests.eq('anon: auth.uid() is null', auth.uid() is null, true);
-  select tests.eq('anon: app_role() is null', public.app_role() is null, true);
+  -- app_role() is executable only by the authenticated role, so the anonymous
+  -- role must be rejected outright rather than merely getting a null back.
+  select tests.denied('anon: cannot execute app_role()', $q$select public.app_role()$q$);
 commit;
 
 -- ---------------------------------------------------------------------------
