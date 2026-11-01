@@ -258,7 +258,7 @@ sharedRouter.post(
           lead_id: leadId,
           assigned_to: lead.assigned_to ?? req.profile.id,
           due_at: dueAt,
-          notes: cleanText(body.follow_up_notes, 2000),
+          note: cleanText(body.follow_up_notes, 2000),
           created_by: req.profile.id,
           status: 'pending',
         })
