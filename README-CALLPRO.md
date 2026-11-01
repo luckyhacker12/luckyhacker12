@@ -58,6 +58,18 @@ Run these in the Supabase SQL editor, or with `supabase db push`:
 Re-running the files is safe: they are written with `create ... if not exists`
 and `drop policy if exists` guards.
 
+### Verifying RLS without a Supabase project (optional)
+
+`npm run test:rls` runs the three migrations against a throwaway local
+PostgreSQL database (`supabase/tests/00_local_shim.sql` provides the minimal
+`auth.*` objects), loads synthetic fixtures, and executes 64 assertions
+covering admin/employee visibility, lead scoping, escalation guards and the
+dashboard aggregates. Any failed assertion aborts with a non-zero exit code.
+It needs `psql` and a role that may `CREATE DATABASE`; connection settings come
+from the standard `PGHOST`/`PGPORT`/`PGUSER`/`PGPASSWORD` variables. This checks
+the SQL and policies only — it does not validate Supabase Auth JWTs, so the
+authenticated flows still need a real project.
+
 ### Supabase Auth settings
 
 * **Email provider:** enabled, "Confirm email" may stay on (the admin-created
