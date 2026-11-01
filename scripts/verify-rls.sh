@@ -28,7 +28,8 @@ fi
 # allows it. Real environments simply set PGUSER/PGHOST or run as a superuser.
 if [ "$(id -u)" -eq 0 ] && [ -z "${PGUSER:-}" ] && [ -z "${CALLPRO_RLS_ELEVATED:-}" ]; then
   if sudo -n -u postgres true 2>/dev/null; then
-    CALLPRO_RLS_ELEVATED=1 exec sudo -n -u postgres env CALLPRO_RLS_ELEVATED=1 bash "${BASH_SOURCE[0]}" "$@"
+    CALLPRO_RLS_ELEVATED=1 exec sudo -n -u postgres env CALLPRO_RLS_ELEVATED=1 \
+      bash "$ROOT/scripts/verify-rls.sh" "$@"
   fi
 fi
 
