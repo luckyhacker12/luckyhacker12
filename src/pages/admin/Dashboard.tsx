@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { api, errorMessage } from '../../lib/api'
 import { fmtDateTime, relative } from '../../lib/format'
 import { LEAD_STATUSES, type AdminStats } from '../../lib/types'
@@ -44,10 +44,9 @@ export function AdminDashboardPage() {
         subtitle="Live picture of the calling floor — leads, team output and what needs attention today."
         actions={
           <>
-            <Link className="btn btn-secondary btn-md" to="/admin/leads?import=1">
-              <Icon name="upload" size={16} />
-              <span>Import leads</span>
-            </Link>
+            <Button variant="secondary" icon="upload" onClick={() => navigate('/admin/leads?import=1')}>
+              Import leads
+            </Button>
             <Link className="btn btn-primary btn-md" to="/admin/leads?new=1">
               <span>Add lead</span>
             </Link>
