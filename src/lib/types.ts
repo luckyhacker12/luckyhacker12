@@ -63,7 +63,8 @@ export interface CallLog {
   employee_id: string
   employee_name?: string | null
   outcome: string
-  notes: string | null
+  /** Column is `note` in public.call_logs (the API accepts `notes` as input). */
+  note: string | null
   duration_seconds: number
   called_at: string
   lead?: { id: string; name: string; phone: string; company: string | null } | null
